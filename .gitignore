@@ -1,0 +1,6 @@
+# API Keys
+.env
+
+venv
+
+*.pyc
