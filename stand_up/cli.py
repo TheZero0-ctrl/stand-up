@@ -22,8 +22,8 @@ app = typer.Typer()
 #     typer.secho(f"The to-do database is {db_path}", fg=typer.colors.GREEN)
 
 @app.command()
-def get_tasks():
-    notion_api.get_tasks()
+def generate_stand_up():
+    notion_api.generate_stand_up()
 
 
 def _version_callback(value: bool) -> None:
