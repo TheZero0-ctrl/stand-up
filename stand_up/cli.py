@@ -5,7 +5,7 @@ from typing import Optional
 
 import typer
 
-from stand_up import notion_api, __app_name__, __version__
+from stand_up import notion_api, slack_api, __app_name__, __version__
 
 app = typer.Typer()
 
@@ -22,8 +22,21 @@ app = typer.Typer()
 #     typer.secho(f"The to-do database is {db_path}", fg=typer.colors.GREEN)
 
 @app.command()
-def generate_stand_up():
-    notion_api.generate_stand_up()
+def generate_stand_up(
+    send_to_slack: bool = typer.Option(
+        False,
+        '--slack',
+        '-s'
+    )
+) -> None:
+    stand_up = notion_api.generate_stand_up()
+    typer.secho(stand_up, fg=typer.colors.GREEN)
+    if send_to_slack:
+        slack_api.send_message(stand_up)
+    else:
+        send_to_slack = typer.confirm("Do you want to send the stand-up message to slack?")
+        if send_to_slack:
+            slack_api.send_message(stand_up)
 
 
 def _version_callback(value: bool) -> None:
