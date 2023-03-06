@@ -3,6 +3,7 @@
 # stand_up/notion_api.py
 
 import os
+import typer
 import requests
 from datetime import date
 
@@ -46,9 +47,9 @@ def get_tasks_for_standup():
         response = requests.post(API_URL, json=filter, headers=HEADERS)
         response.raise_for_status()
     except requests.exceptions.HTTPError as http_error:
-        print(f'HTTP error occurred: {http_error}')
+        typer.secho(f'HTTP error occurred: {http_error}', fg=typer.colors.RED)
     except Exception as error:
-        print(f'Other error occurred: {error}')
+        typer.secho(f'Other error occurred: {error}', fg=typer.colors.RED)
     else:
         return response.json()['results']
 

@@ -1,8 +1,9 @@
 """This module post standup to slack."""
 
-# stand_up/slack.py
+# stand_up/slack_api.py
 
 import os
+import typer
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
@@ -19,16 +20,16 @@ def send_message(message):
         response = client.chat_postMessage(
             channel=os.getenv("SLACK_CHANNEL_ID"),
             blocks=[
-                    {
-                        "type": "section",
-                        "text": {
-                                "type": "mrkdwn",
-                                "text": message,
-                        }
+                {
+                    "type": "section",
+                    "text": {
+                            "type": "mrkdwn",
+                        "text": message,
                     }
+                }
             ],
             text=message
         )
-        print("Message sent: ", response["ts"])
+        typer.secho(f"Message sent: {response['ts']}", fg=typer.colors.GREEN)
     except SlackApiError as e:
-        print("Error sending message: {}".format(e))
+        typer.secho(f"Error sending message: {format(e)}", fg=typer.colors.RED)
