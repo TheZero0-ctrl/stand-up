@@ -1,2 +1,2 @@
 # stand-up
-Try to automate my flow using notion api
+Automat my flow for posting stand up using notion, slack, and google sheet apis.
