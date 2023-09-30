@@ -1,6 +1,8 @@
 """This module provides the stand_up CLI."""
 # stand_up/cli.py
 
+#!/venv/bin/python3
+
 from typing import Optional
 
 import typer

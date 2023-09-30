@@ -16,7 +16,7 @@ def post_to_timelog(task, in_office="Absent", hrs=8):
     spreadsheet = client.open("Time Log Ankit Pariyar")
     worksheet = get_or_create_month_worksheet(spreadsheet, month)
 
-    row = today.day + 1
+    row = today.day
     worksheet.update_col(2, [[in_office], [task], [hrs]], row)
     typer.secho("Successfully updated Timelog", fg=typer.colors.GREEN)
 

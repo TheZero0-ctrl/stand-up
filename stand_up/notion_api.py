@@ -40,7 +40,13 @@ def get_tasks_for_standup():
                     }
                 }
             ]
-        }
+        },
+        "sorts": [
+            {
+                "property": "Last edited time",
+                "direction": "ascending"
+            }
+        ]
     }
 
     try:
