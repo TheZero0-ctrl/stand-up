@@ -13,23 +13,25 @@ client = pygsheets.authorize(
 def post_to_timelog(task, in_office="Absent", hrs=8):
     today = date.today()
     month = today.strftime("%b")
+    year = today.year
     spreadsheet = client.open("Time Log Ankit Pariyar")
-    worksheet = get_or_create_month_worksheet(spreadsheet, month)
+    new_worksheet_name = f"{month}({year})"
+    worksheet = get_or_create_month_worksheet(spreadsheet, new_worksheet_name)
 
     row = today.day
     worksheet.update_col(2, [[in_office], [task], [hrs]], row)
     typer.secho("Successfully updated Timelog", fg=typer.colors.GREEN)
 
-def get_or_create_month_worksheet(spreadsheet, month):
+def get_or_create_month_worksheet(spreadsheet, worksheet_name):
     try:
-        worksheet = spreadsheet.worksheet_by_title(month)
+        worksheet = spreadsheet.worksheet_by_title(worksheet_name)
     except pygsheets.exceptions.WorksheetNotFound:
-        typer.secho(f"Creating new worksheet {month}", fg=typer.colors.GREEN)
-        worksheet = create_month_worksheet(spreadsheet, month)
+        typer.secho(f"Creating new worksheet {worksheet_name}", fg=typer.colors.GREEN)
+        worksheet = create_month_worksheet(spreadsheet, worksheet_name)
     return worksheet
 
-def create_month_worksheet(spreadsheet, month):
-    worksht = spreadsheet.add_worksheet(month, index=0)
+def create_month_worksheet(spreadsheet, worksheet_name):
+    worksht = spreadsheet.add_worksheet(worksheet_name, index=0)
     worksht.update_col(1, [["Date"], ["In Office"], ["Task"], ["hrs"]])
     worksht.adjust_column_width(3, pixel_size=520)
 
